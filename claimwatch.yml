@@ -1,0 +1,22 @@
+# Public-safe production targets for the scheduled Claimwatch workflow.
+targets:
+  - {platform: domain, domain: deepanshu.com}
+  - {platform: github, handle: deepanshu}
+  - {platform: instagram, handle: deepanshu}
+  - {platform: youtube, handle: deepanshu}
+  - {platform: linkedin, handle: deepanshu}
+  - {platform: reddit, handle: deepanshu}
+  - {platform: threads, handle: deepanshu}
+  - {platform: twitch, handle: deepanshu}
+  - {platform: pinterest, handle: deepanshu}
+  - {platform: snapchat, handle: deepanshu}
+  - {platform: bluesky, handle: deepanshu.bsky.social}
+  - {platform: mastodon, handle: deepanshu@mastodon.social}
+  - {platform: telegram, handle: deepanshu}
+  - {platform: producthunt, handle: deepanshu}
+  - {platform: substack, handle: deepanshu}
+  - {platform: medium, handle: deepanshu}
+  - {platform: dev.to, handle: deepanshu}
+  - {platform: npm, handle: deepanshu}
+  - {platform: pypi, handle: deepanshu}
+  - {platform: dockerhub, handle: deepanshu}
