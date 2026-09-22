@@ -20,9 +20,21 @@ def load_state(path: Path) -> dict[str, dict[str, Any]]:
     return json.loads(path.read_text())
 
 
-def save_state(path: Path, observations: list[Observation]) -> None:
+def save_state(
+    path: Path,
+    observations: list[Observation],
+    previous: dict[str, dict[str, Any]] | None = None,
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    state = {item.target.key: item.to_dict() for item in observations}
+    state: dict[str, dict[str, Any]] = {}
+    for item in observations:
+        old = (previous or {}).get(item.target.key)
+        # Keep the last conclusive signal through transient blocks and errors.
+        # The current observation is still returned to the caller for diagnostics.
+        if old is not None and item.status in {"unknown", "error"}:
+            state[item.target.key] = old
+        else:
+            state[item.target.key] = item.to_dict()
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
     temporary.replace(path)
@@ -32,6 +44,10 @@ def diff(previous: dict[str, dict[str, Any]], current: Observation) -> list[Even
     old = previous.get(current.target.key)
     if old is None:
         return [Event("first_seen", current.target, None, current.status, current.checked_at)]
+    # An inconclusive probe is diagnostic, not evidence that availability,
+    # ownership, or activity changed.
+    if current.status in {"unknown", "error"}:
+        return []
     events: list[Event] = []
     now = current.to_dict()
     for field, kind in TRACKED_FIELDS.items():
@@ -49,5 +65,5 @@ def run(targets: list[Target], state_path: Path, *, github_token: str | None = N
         observation = checker_for(target.platform, github_token=github_token).check(target)
         observations.append(observation)
         events.extend(diff(previous, observation))
-    save_state(state_path, observations)
+    save_state(state_path, observations, previous)
     return observations, events
