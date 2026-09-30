@@ -89,8 +89,13 @@ class DomainChecker(Checker):
                 try:
                     socket.getaddrinfo(domain, None)
                     return Observation(target, "taken", owner=domain, detail="No RDAP record; DNS resolves", evidence_url=url)
-                except socket.gaierror:
-                    return Observation(target, "available", detail="No RDAP record and DNS does not resolve; confirm with registrar", evidence_url=url)
+                except socket.gaierror as exc:
+                    # A temporary resolver failure does not prove DNS absence.
+                    # Treat only a definitive no-name response as negative evidence.
+                    no_name_codes = {socket.EAI_NONAME, getattr(socket, "EAI_NODATA", socket.EAI_NONAME)}
+                    if exc.errno in no_name_codes:
+                        return Observation(target, "available", detail="No RDAP record and DNS does not resolve; confirm with registrar", evidence_url=url)
+                    return Observation(target, "unknown", detail=f"No RDAP record; DNS lookup failed: {exc}", evidence_url=url)
             return Observation(target, "unknown", detail=f"RDAP HTTP {status}", evidence_url=url)
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return Observation(target, "error", detail=str(exc), evidence_url=url)
