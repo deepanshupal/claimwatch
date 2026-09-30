@@ -4,7 +4,7 @@ Claimwatch is deliberately small: one run loads targets, calls one adapter per t
 
 ## Boundaries
 
-- **Checkers** own network calls and normalize platform-specific evidence into `available`, `taken`, `unknown`, or `error`.
+- **Checkers** own network calls and normalize platform-specific evidence into `not_registered`, `taken`, `unknown`, or `error`.
 - **Core** owns state, field-level diffs, and atomic writes. It does not know platform APIs or alert protocols.
 - **Transports** consume the same event objects. Adding Slack, NATS, or another destination should not change a checker.
 - **CLI** owns config parsing and environment-variable expansion.
