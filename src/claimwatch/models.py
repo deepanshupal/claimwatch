@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Literal
 
-Status = Literal["available", "taken", "unknown", "error"]
+Status = Literal["available", "not_registered", "taken", "unknown", "error"]
 
 
 @dataclass(slots=True)
@@ -27,6 +27,7 @@ class Observation:
     checked_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     detail: str | None = None
     evidence_url: str | None = None
+    evidence_version: int = 2
 
     def to_dict(self) -> dict[str, Any]:
         result = asdict(self)
