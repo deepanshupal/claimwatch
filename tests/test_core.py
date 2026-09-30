@@ -10,11 +10,15 @@ def test_first_seen_event():
 
 
 def test_changes_are_specific():
-    target = Target("domain", "example.com")
-    current = Observation(target, "available", owner=None, last_activity="2026-01-01")
-    previous = {target.key: {"status": "taken", "owner": "EXAMPLE", "last_activity": "2025-01-01"}}
+    target = Target("github", "octocat")
+    current = Observation(target, "taken", owner="NEW-ID", last_activity="2026-01-01")
+    previous = {
+        target.key: {"status": "unknown", "owner": "EXAMPLE", "last_activity": "2025-01-01"}
+    }
     assert [event.kind for event in diff(previous, current)] == [
-        "availability_changed", "owner_changed", "last_activity_changed"
+        "availability_changed",
+        "owner_changed",
+        "last_activity_changed",
     ]
 
 
@@ -58,3 +62,58 @@ def test_inconclusive_probe_preserves_last_conclusive_state(tmp_path: Path):
     )
 
     assert load_state(path) == previous
+
+
+def test_conclusive_account_with_missing_activity_preserves_known_activity(tmp_path):
+    target = Target("github", "octocat")
+    prior = Observation(target, "taken", owner="583231", last_activity="2026-09-01")
+    previous = {target.key: prior.to_dict()}
+    current = Observation(target, "taken", owner="583231")
+    assert diff(previous, current) == []
+    path = tmp_path / "state.json"
+    save_state(path, [current], previous)
+    assert load_state(path)[target.key]["last_activity"] == "2026-09-01"
+
+
+def test_first_inconclusive_probe_does_not_send_first_seen():
+    assert diff({}, Observation(Target("x", "agentcommerce"), "unknown")) == []
+
+
+def test_state_rejects_invalid_schema(tmp_path):
+    import pytest
+
+    path = tmp_path / "state.json"
+    path.write_text("[]")
+    with pytest.raises(ValueError, match="state"):
+        load_state(path)
+
+
+def test_legacy_available_state_does_not_keep_false_claim(tmp_path):
+    import json
+
+    path = tmp_path / "state.json"
+    path.write_text(json.dumps({"x:agentcommerce": {"status": "available", "owner": None}}))
+    assert load_state(path)["x:agentcommerce"]["status"] == "unknown"
+
+
+def test_registry_record_id_is_not_registrant_identity():
+    target = Target("domain", "example.com")
+    previous = {target.key: {"status": "taken", "owner": "OLD-RECORD"}}
+    assert diff(previous, Observation(target, "taken", owner="NEW-RECORD")) == []
+
+
+def test_legacy_html_taken_is_not_preserved_as_proof(tmp_path):
+    import json
+
+    path = tmp_path / "state.json"
+    path.write_text(
+        json.dumps(
+            {
+                "instagram:analoghouse": {
+                    "status": "taken",
+                    "detail": "Public profile URL returned 200",
+                }
+            }
+        )
+    )
+    assert load_state(path)["instagram:analoghouse"]["status"] == "unknown"
