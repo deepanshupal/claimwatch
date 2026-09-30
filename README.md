@@ -16,8 +16,10 @@ Watch My Handle is self-hostable and has no required server component. Run it fr
 | GitHub | Public REST API | Strong | Taken / unknown | Numeric account ID, `updated_at` |
 | Instagram | Optional Apify actor; unknown public-page fallback | Matching profile records only | Unknown on absence/throttle | Profile ID/activity when Apify exposes it |
 | npm, PyPI, Docker Hub | Public registry APIs | Strong | Taken / unknown | Package/user identity; versions where exposed |
+| Bluesky | Public AppView profile + handle resolver | Exact handle and matching DID | Taken / unknown | Stable DID; no inferred posting activity |
+| dev.to | Public DEV user API | Exact username and numeric ID | Taken / unknown | Stable user ID |
 | Mastodon | Instance account lookup | Strong when `handle@instance` is supplied | Taken / unknown | Instance account ID, last status date |
-| YouTube, Reddit, Twitch, Pinterest, Bluesky, Product Hunt, Substack, Medium, dev.to | Public profile endpoints | Best effort | Unknown; public pages cannot verify claimability | Handle only unless source exposes more |
+| YouTube, Reddit, Twitch, Pinterest, Product Hunt, Substack, Medium | Public profile endpoints | Best effort | Unknown; public pages cannot verify claimability | Handle only unless source exposes more |
 | X, LinkedIn, Threads, Snapchat, Telegram, TikTok | Public profile pages | Weak / frequently challenged | Conservative `unknown` on ambiguous 404 or throttle | Handle only |
 
 No social handle is labeled available. A missing account can be deleted, reserved or restricted. Generic HTML pages stay `unknown`, including HTTP 200 login pages and soft 404s. Matching public API records are `taken`.
@@ -178,3 +180,13 @@ Old `available` records and unversioned `taken` records are downgraded to `unkno
 The CLI saves state after configured alert sends succeed. A failed send leaves changes retryable. With multiple transports, a retry can repeat a send that already succeeded; delivery is at least once, not exactly once. `--no-alerts` intentionally consumes the current changes without sending.
 
 The browser checker rejects invalid input rather than silently renaming it. Each network request times out after 12 seconds. Browser CORS limits and unsupported registries remain `unknown`; the CLI is the broader evidence source.
+
+## Public server-side identity checks
+
+Bluesky checks a full handle, such as `deepanshu.bsky.social` or a custom domain. The public AppView profile must contain the exact handle and a valid DID, and the handle resolver must independently return that same DID. Neither a missing profile nor a resolver error means the name is claimable. The DID is an account ID, not proof of who controls the account offline.
+
+DEV checks the public username endpoint and requires an exact username, positive numeric user ID and user record type. Missing records stay unknown. Neither adapter uses profile indexing timestamps as posting activity.
+
+Sources: [Bluesky identity guide](https://docs.bsky.app/docs/advanced-guides/resolving-identities), [Bluesky profile API](https://docs.bsky.app/docs/api/app-bsky-actor-get-profile), [Forem API](https://developers.forem.com/api/v1). The DEV legacy `by_username` route is used because its documented newer username path returned 404 during live verification.
+
+Moving a check to the CLI is not an access bypass. Reddit's direct profile JSON can be blocked and its supported API requires OAuth. No new general public Instagram identity API has been verified for this release. LinkedIn other-member profiles require limited-access permissions and person IDs. Generic HTML on these platforms and X still stays unknown. Optional paid-provider access is not enabled by these public adapters.

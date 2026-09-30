@@ -269,8 +269,6 @@ class JsonProfileChecker(Checker):
             if (
                 not isinstance(data.get("username"), str)
                 or data["username"].lower() != handle.lower()
-                or not isinstance(data.get("acct"), str)
-                or data["acct"].lower() != handle.lower()
                 or not isinstance(data.get("id"), str)
                 or not data["id"]
             ):
@@ -284,6 +282,79 @@ class JsonProfileChecker(Checker):
             )
         except (OSError, ValueError, TypeError) as exc:
             return _unknown(target, f"Cannot verify {platform} record: {exc}", url)
+
+
+class PublicIdentityChecker(Checker):
+    """Read exact account identities from public provider-owned JSON APIs."""
+
+    def check(self, target: Target) -> Observation:
+        platform = target.platform.lower()
+        url = None
+        try:
+            if platform == "bluesky":
+                # Bluesky names are full DNS handles, including custom domains.
+                name = _domain(target.value.strip().removeprefix("@"))
+                url = (
+                    "https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor="
+                    + urllib.parse.quote(name, safe="")
+                )
+            else:
+                name = _handle(target.value, platform)
+                url = "https://dev.to/api/users/by_username?url=" + urllib.parse.quote(
+                    name, safe=""
+                )
+            status, body, _ = _request(url)
+            if status != 200:
+                return _unknown(
+                    target, f"Public identity API HTTP {status}; absence is not claimability", url
+                )
+            data = _object(body)
+            if platform == "bluesky":
+                did = data.get("did")
+                if (
+                    not isinstance(data.get("handle"), str)
+                    or data["handle"].lower() != name
+                    or not isinstance(did, str)
+                    or not re.fullmatch(r"did:(?:plc:[a-z2-7]{24}|web:[A-Za-z0-9._%:-]+)", did)
+                ):
+                    return _unknown(
+                        target, "Bluesky API did not return a matching handle and DID", url
+                    )
+                lookup = (
+                    "https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle="
+                    + urllib.parse.quote(name, safe="")
+                )
+                code, identity, _ = _request(lookup)
+                if code != 200 or _object(identity).get("did") != did:
+                    return _unknown(
+                        target, "Bluesky handle resolution did not match the profile DID", url
+                    )
+                return Observation(
+                    target,
+                    "taken",
+                    owner=did,
+                    detail="Matching Bluesky profile and handle-resolution DID",
+                    evidence_url=url,
+                )
+            account_id = data.get("id")
+            if (
+                data.get("type_of") != "user"
+                or not isinstance(account_id, int)
+                or isinstance(account_id, bool)
+                or account_id <= 0
+                or not isinstance(data.get("username"), str)
+                or data["username"].lower() != name.lower()
+            ):
+                return _unknown(target, "DEV API did not return a matching user identity", url)
+            return Observation(
+                target,
+                "taken",
+                owner=str(account_id),
+                detail="Matching DEV public user ID and username",
+                evidence_url=url,
+            )
+        except (OSError, ValueError, TypeError) as exc:
+            return _unknown(target, f"Cannot verify public identity: {exc}", url)
 
 
 class DomainChecker(Checker):
@@ -484,6 +555,8 @@ class FederatedChecker(Checker):
 
 def checker_for(platform: str, *, github_token: str | None = None) -> Checker:
     normalized = platform.lower()
+    if normalized in {"bluesky", "dev.to", "devto"}:
+        return PublicIdentityChecker()
     if normalized == "domain":
         return DomainChecker()
     if normalized in JsonProfileChecker.ENDPOINTS:
