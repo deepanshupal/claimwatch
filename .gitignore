@@ -11,3 +11,6 @@ web/.next/
 web/.vercel/
 *.egg-info/
 /claimwatch.yml
+
+web/out/
+web/tsconfig.tsbuildinfo

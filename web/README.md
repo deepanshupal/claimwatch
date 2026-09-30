@@ -1,6 +1,6 @@
 # Watch My Handle web
 
-Next.js app for Vercel. The free checker runs in the visitor's browser and calls public endpoints directly. There is no checker backend, database, or paid service. Browser CORS restrictions are reported as `unknown`; the UI never turns a failed probe into an `available` result.
+Next.js app for Vercel. The free checker runs in the visitor's browser and calls public endpoints directly. There is no checker backend, database, or paid service. Browser CORS restrictions are reported as `unknown`; social results are `taken` or `unknown`, never `available`. Domains distinguish matching registry records (`taken`), authoritative no-record answers (`not_registered`) and `unknown`. No-record answers are not a registrar offer.
 
 ## Local
 
@@ -11,7 +11,7 @@ npm run dev
 
 ## Waitlist capture
 
-Formspree is the selected $0 route. Create a free form at https://formspree.io/, then replace `REPLACE_WITH_FORM_ID` in `app/page.tsx`. This ID is public routing metadata, not a secret. Until that one-time setup, the form is intentionally not claimed as operational.
+Formspree is the selected $0 route. Create a free form at https://formspree.io/, then replace `REPLACE_WITH_FORM_ID` in `app/page.tsx`. This ID is public routing metadata, not a secret. Until that one-time setup, the site links to the CLI instead of displaying a broken signup form.
 
 ## Deploy on GitHub Pages
 

@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [{name = "Deepanshu Pal"}]
-dependencies = ["PyYAML>=6.0,<7"]
+dependencies = ["PyYAML>=6.0,<7", "idna>=3.7,<4"]
 keywords = ["domain-monitoring", "username-checker", "brand-monitoring", "osint", "cli"]
 classifiers = [
   "Development Status :: 3 - Alpha",
