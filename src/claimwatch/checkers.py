@@ -214,7 +214,37 @@ class JsonProfileChecker(Checker):
                 }
                 if self.token:
                     headers["Authorization"] = f"Bearer {self.token}"
-            status, body, _ = _request(url, headers=headers)
+            status, body, response_headers = _request(url, headers=headers)
+            if platform in {"dockerhub", "docker"} and status == 308:
+                # Hub routes organization namespaces away from its user endpoint.
+                # Accept only the exact same-name org path, never arbitrary redirects.
+                org_path = "/v2/orgs/" + urllib.parse.quote(handle, safe="")
+                location = next(
+                    (v for k, v in response_headers.items() if k.lower() == "location"), None
+                )
+                if location in {org_path, org_path + "/"}:
+                    url = "https://hub.docker.com" + org_path + "/"
+                    status, body, _ = _request(url)
+                    if status != 200:
+                        return _unknown(target, f"Docker Hub org API HTTP {status}", url)
+                    data = _object(body)
+                    if (
+                        data.get("type") != "Organization"
+                        or not isinstance(data.get("orgname"), str)
+                        or data["orgname"].lower() != handle.lower()
+                        or not isinstance(data.get("id"), str)
+                        or not data["id"]
+                    ):
+                        return _unknown(
+                            target, "API response is not a matching Docker Hub org", url
+                        )
+                    return Observation(
+                        target,
+                        "taken",
+                        owner=data["id"],
+                        detail="Verified Docker Hub organization namespace",
+                        evidence_url=url,
+                    )
             if status != 200:
                 return _unknown(
                     target,
