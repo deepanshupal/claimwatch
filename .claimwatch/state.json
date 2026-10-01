@@ -1,10 +1,11 @@
 {
   "bluesky:deepanshu.bsky.social": {
-    "checked_at": "2026-09-30T12:30:30.473554+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
-    "evidence_url": "https://bsky.app/profile/deepanshu.bsky.social",
+    "checked_at": "2026-10-01T13:08:07.397477+00:00",
+    "detail": "Matching Bluesky profile and handle-resolution DID",
+    "evidence_url": "https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=deepanshu.bsky.social",
+    "evidence_version": 2,
     "last_activity": null,
-    "owner": "deepanshu.bsky.social",
+    "owner": "did:plc:yuexlzt2pfrqlodoemyobc7e",
     "status": "taken",
     "target": {
       "label": null,
@@ -13,11 +14,12 @@
     }
   },
   "dev.to:deepanshu": {
-    "checked_at": "2026-09-30T12:30:33.792316+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
-    "evidence_url": "https://dev.to/deepanshu",
+    "checked_at": "2026-10-01T13:08:08.608265+00:00",
+    "detail": "Matching DEV public user ID and username",
+    "evidence_url": "https://dev.to/api/users/by_username?url=deepanshu",
+    "evidence_version": 2,
     "last_activity": null,
-    "owner": "deepanshu",
+    "owner": "1051075",
     "status": "taken",
     "target": {
       "label": null,
@@ -26,9 +28,10 @@
     }
   },
   "dockerhub:deepanshu": {
-    "checked_at": "2026-09-30T12:30:34.081533+00:00",
-    "detail": "Docker Hub user exists",
+    "checked_at": "2026-10-01T13:08:09.050309+00:00",
+    "detail": "Verified Docker Hub user",
     "evidence_url": "https://hub.docker.com/u/deepanshu",
+    "evidence_version": 2,
     "last_activity": null,
     "owner": "5eeadadf871c4ee59181db058c6dfbb1",
     "status": "taken",
@@ -39,11 +42,12 @@
     }
   },
   "domain:deepanshu.com": {
-    "checked_at": "2026-09-30T12:30:26.856658+00:00",
-    "detail": "RDAP registration found; expiration=2027-05-13T19:14:33Z",
-    "evidence_url": "https://rdap.org/domain/deepanshu.com",
+    "checked_at": "2026-10-01T13:08:06.347872+00:00",
+    "detail": "Matching RDAP registration record; expiration=2027-05-13T19:14:33Z; registration is not an offer for sale",
+    "evidence_url": "https://rdap.verisign.com/com/v1/domain/deepanshu.com",
+    "evidence_version": 2,
     "last_activity": "2026-04-15T14:46:23Z",
-    "owner": "157065372_DOMAIN_COM-VRSN",
+    "owner": null,
     "status": "taken",
     "target": {
       "label": null,
@@ -52,9 +56,10 @@
     }
   },
   "github:deepanshu": {
-    "checked_at": "2026-09-30T12:30:27.056281+00:00",
-    "detail": "account login=Deepanshu",
-    "evidence_url": "https://github.com/Deepanshu",
+    "checked_at": "2026-10-01T13:08:06.659134+00:00",
+    "detail": "Verified GitHub account login=Deepanshu",
+    "evidence_url": "https://github.com/deepanshu",
+    "evidence_version": 2,
     "last_activity": "2015-04-07T15:39:30Z",
     "owner": "1556029",
     "status": "taken",
@@ -66,11 +71,11 @@
   },
   "instagram:deepanshu": {
     "checked_at": "2026-09-30T12:30:27.465808+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://www.instagram.com/deepanshu/",
     "last_activity": null,
     "owner": "deepanshu",
-    "status": "taken",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "instagram",
@@ -79,11 +84,11 @@
   },
   "linkedin:deepanshu": {
     "checked_at": "2026-09-28T13:48:57.308931+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://www.linkedin.com/in/deepanshu",
     "last_activity": null,
     "owner": "deepanshu",
-    "status": "taken",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "linkedin",
@@ -91,9 +96,10 @@
     }
   },
   "mastodon:deepanshu@mastodon.social": {
-    "checked_at": "2026-09-30T12:30:31.151443+00:00",
-    "detail": "Mastodon instance account lookup succeeded",
-    "evidence_url": "https://mastodon.social/@deepanshu",
+    "checked_at": "2026-10-01T13:08:08.388120+00:00",
+    "detail": "Matching Mastodon instance account",
+    "evidence_url": "https://mastodon.social/api/v1/accounts/lookup?acct=deepanshu",
+    "evidence_version": 2,
     "last_activity": null,
     "owner": "970365",
     "status": "taken",
@@ -117,11 +123,12 @@
     }
   },
   "npm:deepanshu": {
-    "checked_at": "2026-09-30T12:30:33.960721+00:00",
-    "detail": "package exists; latest=1.0.0",
+    "checked_at": "2026-10-01T13:08:08.756113+00:00",
+    "detail": "Verified npm package record",
     "evidence_url": "https://www.npmjs.com/package/deepanshu",
-    "last_activity": "1.0.0",
-    "owner": "deepanshu",
+    "evidence_version": 2,
+    "last_activity": null,
+    "owner": null,
     "status": "taken",
     "target": {
       "label": null,
@@ -131,11 +138,11 @@
   },
   "pinterest:deepanshu": {
     "checked_at": "2026-09-30T12:30:29.908882+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://www.pinterest.com/deepanshu/",
     "last_activity": null,
     "owner": "deepanshu",
-    "status": "taken",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "pinterest",
@@ -157,11 +164,11 @@
   },
   "pypi:deepanshu": {
     "checked_at": "2026-09-30T12:30:34.022236+00:00",
-    "detail": "pypi public API returned 404",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://pypi.org/pypi/deepanshu/json",
     "last_activity": null,
     "owner": null,
-    "status": "available",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "pypi",
@@ -183,11 +190,11 @@
   },
   "snapchat:deepanshu": {
     "checked_at": "2026-09-30T12:30:30.179842+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://www.snapchat.com/add/deepanshu",
     "last_activity": null,
     "owner": "deepanshu",
-    "status": "taken",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "snapchat",
@@ -209,11 +216,11 @@
   },
   "telegram:deepanshu": {
     "checked_at": "2026-09-30T12:30:33.485287+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://t.me/deepanshu",
     "last_activity": null,
     "owner": "deepanshu",
-    "status": "taken",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "telegram",
@@ -222,11 +229,11 @@
   },
   "threads:deepanshu": {
     "checked_at": "2026-09-30T12:30:29.323340+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://www.threads.net/@deepanshu",
     "last_activity": null,
     "owner": "deepanshu",
-    "status": "taken",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "threads",
@@ -235,11 +242,11 @@
   },
   "twitch:deepanshu": {
     "checked_at": "2026-09-30T12:30:29.425370+00:00",
-    "detail": "Public profile URL returned 200; ownership and activity are not verified",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://www.twitch.tv/deepanshu",
     "last_activity": null,
     "owner": "deepanshu",
-    "status": "taken",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "twitch",
@@ -248,11 +255,11 @@
   },
   "youtube:deepanshu": {
     "checked_at": "2026-09-30T12:30:28.133874+00:00",
-    "detail": "Public profile URL returned 404; confirm in-platform before claiming",
+    "detail": "Legacy evidence was not verified under the current checks; recheck with a registrar or platform",
     "evidence_url": "https://www.youtube.com/@deepanshu",
     "last_activity": null,
     "owner": null,
-    "status": "available",
+    "status": "unknown",
     "target": {
       "label": null,
       "platform": "youtube",
