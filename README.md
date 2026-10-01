@@ -190,3 +190,7 @@ DEV checks the public username endpoint and requires an exact username, positive
 Sources: [Bluesky identity guide](https://docs.bsky.app/docs/advanced-guides/resolving-identities), [Bluesky profile API](https://docs.bsky.app/docs/api/app-bsky-actor-get-profile), [Forem API](https://developers.forem.com/api/v1). The DEV legacy `by_username` route is used because its documented newer username path returned 404 during live verification.
 
 Moving a check to the CLI is not an access bypass. Reddit's direct profile JSON can be blocked and its supported API requires OAuth. No new general public Instagram identity API has been verified for this release. LinkedIn other-member profiles require limited-access permissions and person IDs. Generic HTML on these platforms and X still stays unknown. Optional paid-provider access is not enabled by these public adapters.
+
+### Docker Hub organization namespaces
+
+The CLI now checks an organization identity when Docker Hub's user endpoint returns a 308 to the exact same-name `/v2/orgs/<name>` path. It requires an organization record with matching `orgname`, `type=Organization` and a nonempty string ID. Arbitrary redirects, errors, missing records and mismatched identities stay unknown. This public org endpoint was verified live; it is not listed as a documented profile lookup in the current [Hub API reference](https://docs.docker.com/reference/api/hub/latest/), so a future API change may make these checks inconclusive again. No authentication bypass or HTML scraping is used.
