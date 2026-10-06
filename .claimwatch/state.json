@@ -1,6 +1,6 @@
 {
   "bluesky:deepanshu.bsky.social": {
-    "checked_at": "2026-10-05T14:31:22.799990+00:00",
+    "checked_at": "2026-10-06T13:15:43.235714+00:00",
     "detail": "Matching Bluesky profile and handle-resolution DID",
     "evidence_url": "https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=deepanshu.bsky.social",
     "evidence_version": 2,
@@ -14,7 +14,7 @@
     }
   },
   "dev.to:deepanshu": {
-    "checked_at": "2026-10-05T14:31:24.363277+00:00",
+    "checked_at": "2026-10-06T13:15:43.985268+00:00",
     "detail": "Matching DEV public user ID and username",
     "evidence_url": "https://dev.to/api/users/by_username?url=deepanshu",
     "evidence_version": 2,
@@ -28,7 +28,7 @@
     }
   },
   "dockerhub:deepanshu": {
-    "checked_at": "2026-10-05T14:31:24.862515+00:00",
+    "checked_at": "2026-10-06T13:15:44.505768+00:00",
     "detail": "Verified Docker Hub user",
     "evidence_url": "https://hub.docker.com/u/deepanshu",
     "evidence_version": 2,
@@ -42,7 +42,7 @@
     }
   },
   "domain:deepanshu.com": {
-    "checked_at": "2026-10-05T14:31:22.046073+00:00",
+    "checked_at": "2026-10-06T13:15:42.348880+00:00",
     "detail": "Matching RDAP registration record; expiration=2027-05-13T19:14:33Z; registration is not an offer for sale",
     "evidence_url": "https://rdap.verisign.com/com/v1/domain/deepanshu.com",
     "evidence_version": 2,
@@ -56,7 +56,7 @@
     }
   },
   "github:deepanshu": {
-    "checked_at": "2026-10-05T14:31:22.389015+00:00",
+    "checked_at": "2026-10-06T13:15:42.693859+00:00",
     "detail": "Verified GitHub account login=Deepanshu",
     "evidence_url": "https://github.com/deepanshu",
     "evidence_version": 2,
@@ -96,7 +96,7 @@
     }
   },
   "mastodon:deepanshu@mastodon.social": {
-    "checked_at": "2026-10-05T14:31:23.471188+00:00",
+    "checked_at": "2026-10-06T13:15:43.757273+00:00",
     "detail": "Matching Mastodon instance account",
     "evidence_url": "https://mastodon.social/api/v1/accounts/lookup?acct=deepanshu",
     "evidence_version": 2,
@@ -123,7 +123,7 @@
     }
   },
   "npm:deepanshu": {
-    "checked_at": "2026-10-05T14:31:24.575313+00:00",
+    "checked_at": "2026-10-06T13:15:44.161970+00:00",
     "detail": "Verified npm package record",
     "evidence_url": "https://www.npmjs.com/package/deepanshu",
     "evidence_version": 2,
