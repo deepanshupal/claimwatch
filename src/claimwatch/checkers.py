@@ -310,7 +310,7 @@ class JsonProfileChecker(Checker):
                 detail="Verified Docker Hub user",
                 evidence_url=f"https://hub.docker.com/u/{urllib.parse.quote(handle, safe='')}",
             )
-        except (OSError, ValueError, TypeError) as exc:
+        except (OSError, ValueError, TypeError, http.client.HTTPException) as exc:
             return _unknown(target, f"Cannot verify {platform} record: {exc}", url)
 
 
@@ -383,7 +383,7 @@ class PublicIdentityChecker(Checker):
                 detail="Matching DEV public user ID and username",
                 evidence_url=url,
             )
-        except (OSError, ValueError, TypeError) as exc:
+        except (OSError, ValueError, TypeError, http.client.HTTPException) as exc:
             return _unknown(target, f"Cannot verify public identity: {exc}", url)
 
 
@@ -435,7 +435,7 @@ class DomainChecker(Checker):
                 detail=f"Matching RDAP registration record; expiration={events.get('expiration', 'unknown')}; registration is not an offer for sale",
                 evidence_url=url,
             )
-        except (OSError, ValueError, TypeError) as exc:
+        except (OSError, ValueError, TypeError, http.client.HTTPException) as exc:
             return _unknown(target, f"Cannot verify domain registration: {exc}", url)
 
 
@@ -496,7 +496,7 @@ class InstagramChecker(Checker):
                 detail="Apify returned no profile record; absence is not enough to claim availability",
                 evidence_url=profile_url,
             )
-        except (OSError, ValueError, json.JSONDecodeError):
+        except (OSError, ValueError, http.client.HTTPException):
             return Observation(
                 target,
                 "unknown",
@@ -579,7 +579,7 @@ class FederatedChecker(Checker):
                 detail="Matching Mastodon instance account",
                 evidence_url=url,
             )
-        except (OSError, ValueError, TypeError) as exc:
+        except (OSError, ValueError, TypeError, http.client.HTTPException) as exc:
             return _unknown(target, f"Cannot verify Mastodon account: {exc}", url)
 
 
