@@ -61,8 +61,15 @@ def _unknown(target: Target, detail: str, url: str | None = None) -> Observation
     return Observation(target, "unknown", detail=detail, evidence_url=url)
 
 
+def _decode_json(body: bytes) -> Any:
+    try:
+        return json.loads(body)
+    except RecursionError as exc:
+        raise ValueError("Source JSON exceeds nesting limit") from exc
+
+
 def _object(body: bytes) -> dict[str, Any]:
-    data = json.loads(body)
+    data = _decode_json(body)
     if not isinstance(data, dict) or data.get("errorCode") or data.get("error"):
         raise ValueError("Source did not return a valid identity record")
     return data
@@ -396,7 +403,7 @@ class DomainChecker(Checker):
             status, body, _ = _request(url)
             if status == 404:
                 # RFC 7480 section 5.3 permits an empty negative-answer body.
-                data = json.loads(body) if body.strip() else None
+                data = _decode_json(body) if body.strip() else None
                 if not body.strip() or (isinstance(data, dict) and data.get("errorCode") == 404):
                     return Observation(
                         target,
@@ -469,7 +476,7 @@ class InstagramChecker(Checker):
         )
         try:
             with urllib.request.build_opener(_NoRedirect()).open(request, timeout=90) as response:
-                items = json.loads(response.read())
+                items = _decode_json(response.read())
             if (
                 isinstance(items, list)
                 and items
